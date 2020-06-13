@@ -12,3 +12,6 @@ apiList:
   - id: 4
     name: Delete user
     curl: curl -i -H "Content-Type: application/json" -X delete -d '{ "username":"tester1" }' $apiUrlRoot/users/
+  - id: 5
+    name: Update user
+    curl: curl -i -H "Content-Type: application/json" -X put -d '{ "password": "aaabbb" }' $apiUrlRoot/users/1
