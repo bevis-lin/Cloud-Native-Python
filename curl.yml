@@ -1,0 +1,14 @@
+apiUrlRoot: http://localhost:5000/api/v1/
+apiList:
+  - id: 1
+    name: Get all users
+    curl: curl $apiUrlRoot/users
+  - id: 2
+    name: Get a specific user
+    curl: curl $apiUrlRoot/users/1
+  - id: 3
+    name: Create user
+    curl: curl -i -H "Content-Type: application/json" -X POST -d '{ "username": "tester1","email": "test@abc", "password": "abc123", "name": "Tester1"}' $apiUrlRoot/users/
+  - id: 4
+    name: Delete user
+    curl: curl -i -H "Content-Type: application/json" -X delete -d '{ "username":"tester1" }' $apiUrlRoot/users/
