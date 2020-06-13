@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import jsonify
 from flask import make_response
 from flask import abort
@@ -34,13 +34,25 @@ def get_user(user_id):
     return list_user(user_id)
 
 
+@app.route("/api/v1/users/", methods=['POST'])
+def create_user():
+    if not request.json or not 'username' in request.json or not 'email' in request.json or not 'password' in request.json:
+        abort(400)
+    user = {
+        'username': request.json['username'],
+        'emailid': request.json['email'],
+        'name': request.json.get('name', ""),
+        'password': request.json['password']
+    }
+    return jsonify({'status': add_user(user)}), 201
+
 
 def list_user(user_id):
     conn = sqlite3.connect('mydb.db')
     print ("Opened database successfully");
-    api_list=[]
-    cursor=conn.cursor()
-    cursor.execute("SELECT * from users where id=?",(user_id,))
+    api_list = []
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from users where id=?", (user_id,))
     data = cursor.fetchall()
     print (data)
     if len(data) == 0:
@@ -77,9 +89,28 @@ def list_users():
     return jsonify({'user_list': api_list})
 
 
+def add_user(new_user):
+    conn = sqlite3.connect('mydb.db')
+    print ("Opened database successfully");
+    api_list = []
+    cursor = conn.cursor()
+    cursor.execute("SELECT * from users where username=? or emailid=?", (new_user['username'], new_user['emailid']))
+    data = cursor.fetchall()
+    if len(data) != 0:
+        abort(409)
+    else:
+        cursor.execute("insert into users (username, emailid, password, full_name) values(?,?,?,?)",
+                       (new_user['username'], new_user['emailid'], new_user['password'], new_user['name']))
+        conn.commit()
+        return "Success"
+    conn.close()
+    # return jsonify(a_dict)
+
+
 @app.errorhandler(404)
 def resource_not_found(error):
     return make_response(jsonify({'error': 'Resource not found!'}), 404)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
