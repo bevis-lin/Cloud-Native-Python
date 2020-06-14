@@ -27,5 +27,5 @@ apiList:
     curl: curl -i -H "Content-Type: application/json" -X POST -d '{"username":"mahesh@rocks","body":"It works 2"}' $apiUrlRoot/$apiVersion/tweets/
 
   - id: 8
-    name: Get user tweet
+    name: Get specific tweet
     curl: curl $apiUrlRoot/$apiVersion/tweets/1
