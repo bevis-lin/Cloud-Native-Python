@@ -1,17 +1,31 @@
-apiUrlRoot: http://localhost:5000/api/v1/
+apiVersion: v1
+apiUrlRoot: http://localhost:5000/api/
 apiList:
   - id: 1
     name: Get all users
-    curl: curl $apiUrlRoot/users
+    curl: curl $apiUrlRoot/$apiVersion/users
   - id: 2
     name: Get a specific user
-    curl: curl $apiUrlRoot/users/1
+    curl: curl $apiUrlRoot/$apiVersion/users/1
   - id: 3
     name: Create user
-    curl: curl -i -H "Content-Type: application/json" -X POST -d '{ "username": "tester1","email": "test@abc", "password": "abc123", "name": "Tester1"}' $apiUrlRoot/users/
+    curl: curl -i -H "Content-Type: application/json" -X POST -d '{ "username": "tester2","email": "test2@abc", "password": "abc123", "name": "Tester2"}' $apiUrlRoot/$apiVersion/users/
+
   - id: 4
     name: Delete user
-    curl: curl -i -H "Content-Type: application/json" -X delete -d '{ "username":"tester1" }' $apiUrlRoot/users/
+    curl: curl -i -H "Content-Type: application/json" -X delete -d '{ "username":"tester1" }' $apiUrlRoot/$apiVersion/users/
   - id: 5
     name: Update user
-    curl: curl -i -H "Content-Type: application/json" -X put -d '{ "password": "aaabbb" }' $apiUrlRoot/users/1
+    curl: curl -i -H "Content-Type: application/json" -X put -d '{ "password": "aaabbb" }' $apiUrlRoot/$apiVersion/users/1
+
+  - id: 6
+    name: Get tweets
+    curl: curl $apiUrlRoot/$apiVersion/tweets/
+
+  - id: 7
+    name: Create tweet
+    curl: curl -i -H "Content-Type: application/json" -X POST -d '{"username":"mahesh@rocks","body":"It works 2"}' $apiUrlRoot/$apiVersion/tweets/
+
+  - id: 8
+    name: Get user tweet
+    curl: curl $apiUrlRoot/$apiVersion/tweets/1
