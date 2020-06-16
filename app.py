@@ -8,7 +8,7 @@ import sqlite3
 app = Flask(__name__)
 
 
-@app.route("/api/v1/info")
+@app.route("/api/v1/info/")
 def home_index():
     conn = sqlite3.connect('mydb.db')
     print ("Opened database successfully");
@@ -25,12 +25,12 @@ def home_index():
     return jsonify({'api_version': api_list}), 200
 
 
-@app.route("/api/v1/users", methods=['GET'])
+@app.route("/api/v1/users/", methods=['GET'])
 def get_users():
     return list_users()
 
 
-@app.route("/api/v1/users/<int:user_id>", methods=['GET'])
+@app.route("/api/v1/users/<int:user_id>/", methods=['GET'])
 def get_user(user_id):
     return list_user(user_id)
 
@@ -56,7 +56,7 @@ def delete_user():
     return jsonify({'status': del_user(user)}), 200
 
 
-@app.route("/api/v1/users/<int:user_id>", methods=['PUT'])
+@app.route("/api/v1/users/<int:user_id>/", methods=['PUT'])
 def update_user(user_id):
     user = {'id': user_id}
     key_list = request.json.keys()
@@ -84,7 +84,7 @@ def add_tweets():
     return jsonify({'status': add_tweet(user_tweet)}), 201
 
 
-@app.route("/api/v2/tweets/<int:id>", methods=['GET'])
+@app.route("/api/v2/tweets/<int:id>/", methods=['GET'])
 def get_tweet(id):
     return list_tweet(id)
 
